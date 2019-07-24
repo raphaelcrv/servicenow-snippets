@@ -30,14 +30,16 @@
 
 ---
 
-### Filtering choices lists (Use reference qualifier)`
+### Filtering choices lists (Use reference qualifier)
 ```js
 javascript:"u_contractISNOTEMPTY^u_contract =" + current.variables.contract
 
 current.variables.contract => get value the variable on the form
 u_contractISNOTEMPTY^ => condition u_contract não deve estar vazio
 ```
+
 Keywords: `Use_reference_qualifier`, `filter_choice_list`
+
 ---
 
 ### Verifying a record is found using `GlideRecord.get`
