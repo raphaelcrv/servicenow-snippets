@@ -14,15 +14,10 @@
 
 ----
 
-### Snippet Title
-Description
+## Snippet Title
+---
+### Description
 
-###### [Script Location]
-```js
-// code
-```
-
-###### [Script Location]
 ```js
 // code
 ```
@@ -31,10 +26,9 @@ Description
 
 ----
 
-
 ## Snippets
 
-----------------------------------------------------------------------------------------------------------
+---
 
 ### Verifying a record is found using `GlideRecord.get`
 ```js
