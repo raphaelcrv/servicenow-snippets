@@ -31,6 +31,9 @@
 ---
 
 ### Filtering choices lists (Use reference qualifier)
+
+![alt text](https://i.imgur.com/gfBXiYs.png)
+
 ```js
 javascript:"u_contractISNOTEMPTY^u_contract =" + current.variables.contract
 
