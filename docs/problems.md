@@ -20,3 +20,6 @@ fuckups / what was fred luddy thinking
 ## fuck up 2
 An empty list data type returns 'undefined'
 
+
+## fuck up 3 Todo (detail more with examples)
+External script include on portal theme dosent work on UI interface 
