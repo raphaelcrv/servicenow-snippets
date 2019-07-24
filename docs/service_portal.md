@@ -306,9 +306,34 @@ if(checkFields()) {
 }
 ```
 
-
 ----
+### Using Chart.js
+###### Client Controller
+```js
+  //html example
+  <div class="col-md-12" style="padding-bottom: 16px;">
+    <canvas id="openTicket" width="400" height="400"></canvas>
+  </div> 
 
+  //client script
+  var ctx = document.getElementById('openTicket').getContext('2d');
+
+  var slaChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      datasets: [{
+        data: stateCount,
+        backgroundColor: colors,
+        label: 'Dataset 1'
+      }],
+      labels: statesLabels
+    },
+    options: {
+      responsive: true
+    }
+  });
+```
+----
 
 ## Misc
 
