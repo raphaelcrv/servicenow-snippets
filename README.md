@@ -77,11 +77,6 @@ rec.get('sys_id_of_record');
 var um = new GlideUpdateManager2();
 um.saveRecord(rec);
 ```
-
-----
-
-
-## GlideRecord Update Example
 ---
 ### Example how to update massive data 
 
