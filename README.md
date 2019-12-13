@@ -85,25 +85,23 @@ um.saveRecord(rec);
 ---
 ### Example how to update massive data 
 
-```js
-//   
-  var gr = new GlideRecord('incident');
-  gr.addQuery('sys_domain=bc2927d76fe93200f7d917164b3ee4fd^u_service.u_type!=NULL');
+```js 
+  var gr = new GlideRecord('sys_user');
+  gr.addQuery('emailLIKE@domain');
   gr.query();
   var count = gr.getRowCount();
   if (count > 0) {
     while (gr.next()) {
-      gr.u_type = gr.u_service.u_type.getDisplayValue();
+      gr.user_password.setDisplayValue('convit123');
+      gr.password_needs_reset = true;
       gr.update();
-      //Avoid run BR's
-      //gr.setWorkflow(false);
     }
   }
-
 ```
 
 > Notes on the snippet
-Usefull to update a massive data 
+Resume: that code update password of all users on the filter
+Caution: User gr.setWorkflow = false for skipp workflow rules
 ----
 
 ### Recursive function
