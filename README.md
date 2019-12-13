@@ -80,6 +80,32 @@ um.saveRecord(rec);
 
 ----
 
+
+## GlideRecord Update Example
+---
+### Example how to update massive data 
+
+```js
+//   
+  var gr = new GlideRecord('incident');
+  gr.addQuery('sys_domain=bc2927d76fe93200f7d917164b3ee4fd^u_service.u_type!=NULL');
+  gr.query();
+  var count = gr.getRowCount();
+  if (count > 0) {
+    while (gr.next()) {
+      gr.u_type = gr.u_service.u_type.getDisplayValue();
+      gr.update();
+      //Avoid run BR's
+      //gr.setWorkflow(false);
+    }
+  }
+
+```
+
+> Notes on the snippet
+Usefull to update a massive data 
+----
+
 ### Recursive function
 ```js
 var results = [];
