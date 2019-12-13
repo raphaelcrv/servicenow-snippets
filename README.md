@@ -78,7 +78,7 @@ var um = new GlideUpdateManager2();
 um.saveRecord(rec);
 ```
 ---
-### Example how to update massive data 
+### GlideRecord Update Example
 
 ```js 
   var gr = new GlideRecord('sys_user');
@@ -97,6 +97,7 @@ um.saveRecord(rec);
 > Notes on the snippet
 Resume: that code update password of all users on the filter
 Caution: User gr.setWorkflow = false for skipp workflow rules
+tags: GlideREcord, Update
 ----
 
 ### Recursive function
