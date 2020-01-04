@@ -9,6 +9,7 @@
 1. [CSS](docs/css.md)
 1. [Misc](docs/misc.md)
 1. [Components](docs/components/components.md)
+1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
 
 ## Template
 
