@@ -101,6 +101,35 @@ Caution: User gr.setWorkflow = false for skipp workflow rules
 tags: GlideREcord, Update
 ----
 
+### GlideRecord Get Example
+
+```js
+// var gr = new GlideRecord('sys_db_object');
+  gr.addQuery('super_class.labelSTARTSWITHtask^nameSTARTSWITHu_');
+  gr.query();
+  var count = gr.getRowCount();
+  if (count > 0) {
+    while (gr.next()) {
+
+      gs.addInfoMessage(gr.name + ' - ' + tableHasData(gr.name))
+      
+    }
+  }
+
+
+function tableHasData(table){
+   var rec = new GlideRecord(table); 
+   rec.query(); 
+   return rec.hasNext()
+}
+
+
+```
+
+> Notes on the snippet
+Resume: that code return all tables extended from task and if has records or not on that 
+extendables tables
+
 ### Recursive function
 ```js
 var results = [];
