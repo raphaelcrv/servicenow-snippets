@@ -2,7 +2,7 @@
 
 ## Table of Contents
 @todo fix ToC, not sure about JavaScript snippets and Misc
-1. [Servicenow Product Documentation](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
+1. [Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
 1. [Service Portal](docs/service_portal.md)
 1. [JavaScript Snippets](docs/javascript.md)
 1. [HTML Snippets](docs/html_snippets.md)
