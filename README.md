@@ -2,21 +2,30 @@
 
 ## Table of Contents
 @todo fix ToC, not sure about JavaScript snippets and Misc
-1. [Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
-1. [Service Portal](docs/service_portal.md)
+
+
+[Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
+
+---
+
+1. [Woring with GlideRecord](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideRecordAPI)
+1. [Glide User](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/GUserAPI)
+1. [Working with GlideDateTime](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideDateTimeAPI)
 1. [JavaScript Snippets](docs/javascript.md)
+1. [Array Utils](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_ArrayUtilAPI)
 1. [HTML Snippets](docs/html_snippets.md)
 1. [SASS Variables](docs/sass_variables.md)
 1. [CSS](docs/css.md)
 1. [Misc](docs/misc.md)
 1. [Components](docs/components/components.md)
 1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
+1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
+
+
+
 
 ## Template
 
-----
-
-## Snippet Title
 ---
 ### Description
 
@@ -28,11 +37,11 @@
 
 ----
 
-## Snippets
+# Snippets
 
----
 
-### Filtering choices lists (Use reference qualifier)
+
+## Filtering choices lists (Use reference qualifier)
 
 ![alt text](https://i.imgur.com/gfBXiYs.png)
 
@@ -42,36 +51,183 @@ javascript:"u_contractISNOTEMPTY^u_contract =" + current.variables.contract
 current.variables.contract => get value the variable on the form
 u_contractISNOTEMPTY^ => condition u_contract não deve estar vazio
 ```
-
-Keywords: `Use_reference_qualifier`, `filter_choice_list`
-
+>Keywords: `Use_reference_qualifier`, `filter_choice_list`
 ---
 
-### Verifying a record is found using `GlideRecord.get`
+## Examples  `addJoinQuery` :
 ```js
-var gr = new GlideRecord(table);
-if(gr.get(sys_id)) {
-  // it is found
-  gs.print(gr.sys_created_on);
-} else {
-  // it isn't found
-  gs.print('record not found');
+//Find problems that have incidents associated where the incident caller_id field value matches that of the problem opened_by field.
+var gr = new GlideRecord('problem'); 
+gr.addJoinQuery('incident', 'opened_by', 'caller_id'); 
+gr.query();,
+while (gr.next()) {
+    gs.info(gr.getValue('number'));
+}
+
+```
+Keywords: `addJoinQuery`, `get`
+
+----
+
+
+---
+## Examples  `addEncodedQuery` :
+```js
+var queryString = "priority=1^ORpriority=2";
+var gr = new GlideRecord('incident');
+gr.addEncodedQuery(queryString);
+gr.query();
+while (gr.next()) {
+  gs.addInfoMessage(gr.number);
 }
 ```
 Keywords: `GlideRecord`, `get`
 
 ----
 
-### Using `gs.nil()`
+## Examples `GlideRecord.get `
+
 ```js
-// @todo
-if(gs.nil(gr.variableName)) { }
+
+//Example get encoded query
+var queryString = "priority=1^ORpriority=2";
+var gr = new GlideRecord('incident');
+gr.addEncodedQuery(queryString);
+gr.query();
+while (gr.next()) { //This method fails if there is a field in the table called "next". If that is the case, use the method _next().
+  gs.addInfoMessage(gr.number);
+  gs.info(gr.getValue('number')); //Retrieves the string value of an underlying element in a field.
+
+  
+}
+
+//exemple get sys_id
+var gr = new GlideRecord('incident');
+if(gr.get('99ebb4156fa831005be8883e6b3ee4b9')){
+  gs.info(gr.number) // logs Incident Number
+}
+
+//exemple get param
+var gr = new GlideRecord('incident');
+if(gr.get('caller_id.name','Sylivia Wayland')){
+  gs.info(gr.number) // logs Incident Number
+}
+
+//example if ternary get function
+function getRecord (sys_id, table) {
+  var gr = new GlideRecord(table);
+  return gr.get(sys_id); //return true or false
+}
+
+
+```
+> gr.get return true if record founded or the value of record if founded
+
+Keywords: `GlideRecord`, `get`
+
+----
+
+## Examples `gr.delete()`
+```js
+//Deletes multiple records according to the current "where" clause.
+function nukeCart() {
+  var cart = getCart();
+  var id = cart.sys_id;
+  var kids = new GlideRecord('sc_cart_item');
+  kids.addQuery('cart', cart.sys_id);
+  kids.deleteMultiple();
+}
+
+//Deletes a single record.
+var rec = new GlideRecord('incident');
+rec.addQuery('active',false);
+rec.query();
+while (rec.next()) { 
+ gs.print('Inactive incident ' + rec.number + ' deleted');
+ rec.deleteRecord();
+}
+
+```
+
+----
+## Examples `gr.update()`
+```js
+//update single record
+//Updates the GlideRecord with any changes that have been made. If the record does not exist, it is inserted.
+var gr = new GlideRecord('task_ci');
+gr.addQuery();
+gr.query();
+var count = gr.getRowCount();
+if (count > 0) {
+   var allocation = parseInt(10000 / count) / 100;
+   while (gr.next()) {
+      gr.u_allocation = allocation;
+      gr.update();
+   }
+}
+
+//updateMultiple() records
+// update the state of all active incidents to 4 - "Awaiting User Info"
+var gr = new GlideRecord('incident');
+gr.addQuery('active', true);
+gr.setValue('state',  4);
+gr.updateMultiple();
+
+```
+----
+
+## Examples `gr.getLastErrorMessage()`
+```js
+// Setup a data policy where short_description field in incident is mandatory
+var gr = new GlideRecord('incident');
+gr.insert(); // insert without data in mandatory field
+var errormessage = gr.getLastErrorMessage(); 
+gs.info(errormessage);
+```
+
+    Output:
+    Data Policy Exception: Short description is mandatory
+
+----
+
+## Examples `getLink(Boolean noStack)`
+```js
+gr = new GlideRecord('incident');
+gr.addActiveQuery();
+gr.addQuery("priority", 1);
+gr.query();
+gr.next()
+gs.info(gs.getProperty('glide.servlet.uri') + gr.getLink(false));
+```
+
+    Output:
+        <BaseURL>/incident.do?sys_id=9d385017c611228701d22104cc95c371&sysparm_stack=incident_list.do?sysparm_query=active=true
+
+----
+## Using `gs.nil()`
+```js
+if(gs.nil(gr.variableName)) { //is empety }
 ```
 > `gs.nil()` will return true if a variable is empty
 
 ----
 
-### Force a record into an update set
+----
+# Helpers
+```js
+if(gs.nil(gr.variableName)) { //is empety }
+inc.autoSysFields(false);  // Do not update sys_updated_by, sys_updated_on, sys_mod_count, sys_created_by, and sys_created_on
+inc.setWorkflow(false);    // Do not run any other business rules
+
+current.setAbortAction(true); //Sets a flag to indicate if the next database action (insert, update, delete) is to be aborted. ref:[https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/r_GlideRecord-setAbortAction_Boolean]
+gr.setLimit(10); //To use the setLimit() method in a scoped application, use the corresponding scoped method: setLimit().
+
+```
+
+
+----
+
+## Force a record into an update set
 ```js
 var rec = new GlideRecord('table_name_of_record');
 rec.get('sys_id_of_record');
@@ -79,8 +235,10 @@ rec.get('sys_id_of_record');
 var um = new GlideUpdateManager2();
 um.saveRecord(rec);
 ```
+
+> GlideUpdateManager2 Push the update into the current update set
 ---
-### GlideRecord Update Example
+## GlideRecord Update Example
 
 ```js 
   var gr = new GlideRecord('sys_user');
@@ -99,31 +257,7 @@ Caution: User gr.setWorkflow = false for skipp workflow rules
 tags: GlideREcord, Update
 ----
 
-### GlideRecord Get Example
-
-```js
-// 
-  var gr = new GlideRecord('sys_db_object');
-  gr.addQuery('super_class.labelSTARTSWITHtask^nameSTARTSWITHu_');
-  gr.query();
-  while (gr.next()) {
-    gs.addInfoMessage(gr.name + ' - ' + tableHasData(gr.name);
-  }
-
-  function tableHasData(table){
-     var rec = new GlideRecord(table); 
-     rec.query(); 
-     return rec.hasNext()
-  }
-
-
-```
-
-> Notes on the snippet
-Resume: that code return all tables extended from task and if has records or not on that 
-extendables tables
-
-### Recursive function
+## Recursive function
 ```js
 var results = [];
 var nestedCategories = ['898fc5a0db00d74074c99447db9619d8'];
@@ -160,7 +294,7 @@ function hasChildren(sysID) {
 
 ----
 
-### CatItem API
+## CatItem API
 ```js
 var catalogItemJS = new sn_sc.CatItem(sc.getUniqueValue());
 if (!catalogItemJS.canView())
@@ -170,7 +304,7 @@ var catItemDetails = catalogItemJS.getItemSummary();
 
 ----
 
-### CatCategory API
+## CatCategory API
 ```js
 categoryJS = new sn_sc.CatCategory(data.category_id);
 if (!categoryJS.canView()) {
@@ -181,7 +315,7 @@ if (!categoryJS.canView()) {
 
 ----
 
-### CatalogSearch API
+## CatalogSearch API
 ```js
 var items = data.items = [];
 var catalog = $sp.getValue('sc_catalog');
@@ -196,7 +330,7 @@ sc.query();
 
 ----
 
-### Get Days Ago
+## Get Days Ago
 ```js
 _checkDaysAgo: function (date) {
     //take date to find today, yesterday, etc.
@@ -214,23 +348,13 @@ _checkDaysAgo: function (date) {
     return days;
 }
 ```
-
 ---
 
-### Working with GlideRecord.getRefRecord()
-@todo - found in nr-fav-panel-list widget
-```js
-var articleRef = gr.u_knowledge_article.getRefRecord();
-item.title = articleRef.getDisplayValue('short_description') + " (" + gr.getDisplayValue('u_knowledge_article') + ")";
-```
+# Working with Dates
 
+[Working with dates - GlideDateTime:](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideDateTimeAPI)
 
----
-
-### Working with Dates
-
-
-#### Comparing if a Date is Less Than Current Date
+## Comparing if a Date is Less Than Current Date
 ```js
 var date = new GlideDateTime(date_field);
 var now = new GlideDateTime();
