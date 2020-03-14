@@ -21,6 +21,11 @@
 1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
 1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
 
+---
+1. [GlideForm: The GlideForm API provides methods to customize forms. ](https://developer.servicenow.com/dev.do#!/reference/api/orlando/client/r_GlideFormAddDecoration_String_String_String_String)
+1. [GlideModalV3: Provides methods for displaying a content overlay.](docs/widget_generate_catalog.md)
+1. [GlideUser:The GlideUser API provides access to information about the current user and current user roles.](https://developer.servicenow.com/dev.do#!/reference/api/orlando/client/c_GlideUserAPI)
+
 
 
 
@@ -37,9 +42,11 @@
 
 ----
 
-# Snippets
+# Snippets Client
 
 
+
+# Snippets Server
 
 ## Filtering choices lists (Use reference qualifier)
 
