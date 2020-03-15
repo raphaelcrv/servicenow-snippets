@@ -48,6 +48,36 @@
 
 # Snippets Server
 
+
+## Debug ScriptInclude Example:
+```js
+var MyUtil = Class.create();
+ 
+MyUtil.prototype = {
+    initialize: function(){
+        this.debug       = gs.getProperty('debug.MyUtil') == 'true';
+        this.debugPrefix = '>>>DEBUG: MyUtil: ';
+    },
+ 
+    myMethod : function(id) {
+ 
+        // Some logic here
+        this._debug('myMethod(): Sample debug output');
+    },
+ 
+    _debug : function(msg) {
+
+        if (this.debug) {
+            gs.debug(debugPrefix + msg);
+        }
+    },
+ 
+    type : "MyUtil"
+}
+```
+Keywords: `GlideRecord`, `get`
+---
+
 ## Filtering choices lists (Use reference qualifier)
 
 ![alt text](https://i.imgur.com/gfBXiYs.png)
