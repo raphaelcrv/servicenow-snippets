@@ -64,11 +64,11 @@
  
 	for (var i = 0; i < s_ponto_focal.length; i++) {
 
-		//remove blank spaces
-		s_ponto_focal[i] = s_ponto_focal[i].replace(' ','');
+	//remove blank spaces
+	s_ponto_focal[i] = s_ponto_focal[i].replace(' ','');
  
-  //get the missing zeros
-  qtdChar = parseInt(maxChar) - parseInt((s_ponto_focal[i]).length);
+//get the missing zeros
+  	qtdChar = parseInt(maxChar) - parseInt((s_ponto_focal[i]).length);
 		if (qtdChar > 0) {
 			var z = 0;
 			var zero = '';
@@ -76,11 +76,11 @@
 			for (z = 0; z < qtdChar; z++) {
 				zero += '0';
 			}
-   //concat the missing zeros
+//concat the missing zeros
 			s_ponto_focal[i] = zero + s_ponto_focal[i];
 		}
 		
-  //query find sys_id -> concat to a_ponto_focal split by comma
+//query find sys_id -> concat to a_ponto_focal split by comma
 		var user_table = new GlideRecord('sys_user');
 		user_table.addQuery('active', 'true');
 		user_table.addQuery('user_name', s_ponto_focal[i]);
