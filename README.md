@@ -49,6 +49,60 @@
 # Snippets Server
 
 
+## Transform Map Demo Script
+
+1. input value userID with blank spaces and missing char to fill with zero '123, 123, 21';
+2. output convert to string splited by comma with UserSysID 'sysid1,sysid2,sysid3'
+
+```js
+// 
+//convert to string-> suing split to transform in array
+	var s_ponto_focal = ((source.u_ponto_focal).toString()).split(",");
+	var b_ponto_focal = '';
+	var a_ponto_focal = '';
+	var maxChar = 9;
+ 
+	for (var i = 0; i < s_ponto_focal.length; i++) {
+
+		//remove blank spaces
+		s_ponto_focal[i] = s_ponto_focal[i].replace(' ','');
+ 
+  //get the missing zeros
+  qtdChar = parseInt(maxChar) - parseInt((s_ponto_focal[i]).length);
+		if (qtdChar > 0) {
+			var z = 0;
+			var zero = '';
+   
+			for (z = 0; z < qtdChar; z++) {
+				zero += '0';
+			}
+   //concat the missing zeros
+			s_ponto_focal[i] = zero + s_ponto_focal[i];
+		}
+		
+  //query find sys_id -> concat to a_ponto_focal split by comma
+		var user_table = new GlideRecord('sys_user');
+		user_table.addQuery('active', 'true');
+		user_table.addQuery('user_name', s_ponto_focal[i]);
+		user_table.query();
+		if (user_table.next()) {
+			if (a_ponto_focal.length > 1) {
+				a_ponto_focal += ',' + user_table.sys_id;
+			}else{
+				a_ponto_focal += user_table.sys_id;
+			}
+
+		}
+	}
+	
+ //set target values 
+	target.vendor_manager = a_ponto_focal;
+	target.vendor = true;
+	target.vendor_type = "OutSourcing";
+```
+
+> Notes on the snippet
+
 ## Debug ScriptInclude Example:
 ```js
 var MyUtil = Class.create();
