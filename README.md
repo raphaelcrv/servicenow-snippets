@@ -175,7 +175,33 @@ while (gr.next()) {
 Keywords: `GlideRecord`, `get`
 
 ----
+## Examples `etch a record with all fields from query object  `
+fetch a record with all fields from query object at a time while retrieving the data from GlideRecord
+```js
+  var grData = [];
+  var gr = new GlideRecord('incident');
+  gr.addEncodedQuery('state=2');
+  gr.query();
+  while (gr.next()) {
+    var packageToSend = {}
+    for (var property in gr) {
+      try {
+        packageToSend[property] = gr[property].getDisplayValue();
+      }
+      catch(err){}
+    }
+    grData.push(packageToSend)
+  }
 
+  grData.forEach(function(e,i){  
+    //all fields from incident table are avaibale 
+    gs.log(e.number);
+    
+  });
+```
+Keywords: `GlideRecord`, `get`
+
+----
 ## Examples `GlideRecord.get `
 
 ```js
