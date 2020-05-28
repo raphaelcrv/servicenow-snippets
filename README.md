@@ -10,7 +10,7 @@
 
 1. [Woring with GlideRecord](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideRecordAPI)
 1. [Glide User](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/GUserAPI)
-1. [Working with GlideDateTime](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideDateTimeAPI)
+1. [Working with GlideDateTime](https://docs.servicenow.com/bundle/jakarta-application-development/page/app-store/dev_portal/API_reference/glideDateTimeScoped/concept/c_GlideDateTimeScoped.html)
 1. [JavaScript Snippets](docs/javascript.md)
 1. [Array Utils](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_ArrayUtilAPI)
 1. [HTML Snippets](docs/html_snippets.md)
