@@ -5,7 +5,7 @@
 
 
 [Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
-
+- angular documentation: https://docs.angularjs.org/api/ng/directive/ngReadonly
 ---
 
 1. [Woring with GlideRecord](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideRecordAPI)
