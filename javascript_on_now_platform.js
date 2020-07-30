@@ -53,9 +53,9 @@ var vehicle = {
   gs.print("Contains b: " + arrayUtil.contains(a1, "b"));
   gs.print("Contains x: " + arrayUtil.contains(a1, "x"));
   
-  Output
-  Contains b: true
-  Contains x: false
+  // Output
+  // Contains b: true
+  // Contains x: false
   
   //
   //Array Util unique
