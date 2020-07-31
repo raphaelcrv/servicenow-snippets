@@ -8,10 +8,6 @@ var language = 'en'; //[en,pb,es]
 
 var toTranslate =
 [{
-    "english": "KPI Number",
-    "element": "kpi_u_number"
-},
-{
     "english": "KPI Description",
     "element": "u_kpi"
 },
@@ -142,8 +138,7 @@ var toTranslate =
 {
     "english": "Grouping Codes",
     "element": "feature_u_groupings_codes"
-}
-];
+}];
 
 
 //create a translation for every colum in array element
@@ -154,7 +149,7 @@ toTranslate.forEach(function(el){
     grLabel.element = el.element;
     grLabel.label = el.english;
     grLabel.language = language;
-    grLabel.table = table;
+    grLabel.name = table;
     gs.info(grLabel.insert());
 
 
