@@ -7,10 +7,10 @@ This method accepts either one or two parameters. If only a single parameter is 
 
 If multiple records are found, use next() to access the additional records. */
 
-	var grIncident = new GlideRecord('incident');
-	var returnValue = grIncident.get('99ebb4156fa831005be8883e6b3ee4b9');
-	gs.info(returnValue); // logs true or false
-	gs.info(grIncident.number); // logs Incident Number
+var grIncident = new GlideRecord('incident');
+var returnValue = grIncident.get('99ebb4156fa831005be8883e6b3ee4b9');
+gs.info(returnValue); // logs true or false
+gs.info(grIncident.number); // logs Incident Number
 
 // ================ ================ ================
 // ================ ===== GET=======================
