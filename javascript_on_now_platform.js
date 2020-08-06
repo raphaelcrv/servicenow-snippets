@@ -179,17 +179,17 @@ var vehicle = {
   vehicle["alertName"]();
 
   //example structure to refactor
-	var actions = {}
-	actions.getResourcesAllocatedMenu = function(){
+  var actions = {}
+    actions.getResourcesAllocatedMenu = function(){
 
-	actions.cancelAllocation = function(){
-    return data.allocation = {
+    actions.cancelAllocation = function(){
+      return data.allocation = {
       status : false
     }
-	}
+  }
 
-	actions[input.action]();
-	data.action = '';
+  actions[input.action]();
+  data.action = '';
   
   
   //
