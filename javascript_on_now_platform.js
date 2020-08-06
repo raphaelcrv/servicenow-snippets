@@ -177,6 +177,19 @@ var vehicle = {
   
   
   vehicle["alertName"]();
+
+  //example structure to refactor
+	var actions = {}
+	actions.getResourcesAllocatedMenu = function(){
+
+	actions.cancelAllocation = function(){
+    return data.allocation = {
+      status : false
+    }
+	}
+
+	actions[input.action]();
+	data.action = '';
   
   
   //
