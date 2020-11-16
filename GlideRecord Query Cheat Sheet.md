@@ -106,3 +106,8 @@ gr.addQuery('active', true);
 gr.setValue('state', 4);
 gr.updateMultiple();
 ```
+
+
+### GetDATETIME
+	var sgd1 = new GlideDateTime(); 
+	var testVarReloadTime = sgd1.getDisplayValue(); 
