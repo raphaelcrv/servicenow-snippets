@@ -1,4 +1,4 @@
-#How to make attachment mandatory Plataform UI by Catalog Client Script
+# How to make attachment mandatory Plataform UI by Catalog Client Script
 
 /*
 Obs:.
