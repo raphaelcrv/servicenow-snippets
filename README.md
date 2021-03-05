@@ -283,6 +283,15 @@ if (count > 0) {
    }
 }
 
+var gr = new GlideRecord('u_cadastro_fundo_xp_offshore');
+gr.addQuery();
+gr.query();
+var count = gr.getRowCount();
+ while (gr.next()) {
+    gr.u_state = 1; 
+  	gr.update();
+}
+
 //updateMultiple() records
 // update the state of all active incidents to 4 - "Awaiting User Info"
 var gr = new GlideRecord('incident');
