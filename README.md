@@ -1,4 +1,4 @@
-# ServiceNow Snippets
+# ServiceNow & JS Snippets
 
 ## Table of Contents
 @todo fix ToC, not sure about JavaScript snippets and Misc
@@ -510,6 +510,22 @@ gs.log("GDT2 -> " + gdt2.getValue());
 gs.log("GDT1("+gdt1.getValue()+") antes de GDT2 ("+ gdt2 +")?");
 
 gs.info(gdt1.before(gdt2));  
+```
+
+
+---
+
+## Scrapping content from internet
+```js
+var el = $(".xuxa tr")
+arrDDD = []
+for (var i = 0; i < el.length; i++){
+    
+    arrDDD.push({
+    ddd : $(el[i]).children('td:eq(1)').html(),
+    state : $(el[i]).children('td:eq(0)').html(),
+    })
+};
 ```
 
 
