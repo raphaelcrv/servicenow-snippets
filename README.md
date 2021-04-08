@@ -528,5 +528,16 @@ for (var i = 0; i < el.length; i++){
 };
 ```
 
+## Change Multiple Update Set (Move)
+```js
+var gr = new GlideRecord('sys_update_xml');... por Miguel Huke Franca
+
+Miguel Huke Franca11:18
+var gr = new GlideRecord('sys_update_xml');
+gr.addEncodedQuery("update_set=9679e8561b32289016600d8ce54bcb3f^sys_created_onON2021-04-08@javascript:gs.dateGenerate('2021-04-08','start')@javascript:gs.dateGenerate('2021-04-08','end')");
+gr.setValue('update_set',  '22a9ba8b1bdbe890ef6a64afe54bcb6a');
+gr.updateMultiple();
+```
+
 
 ---
