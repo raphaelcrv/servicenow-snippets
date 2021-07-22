@@ -510,6 +510,45 @@ gs.log("GDT2 -> " + gdt2.getValue());
 gs.log("GDT1("+gdt1.getValue()+") antes de GDT2 ("+ gdt2 +")?");
 
 gs.info(gdt1.before(gdt2));  
+
+
+Example 2
+
+
+
+
+//604800000 
+
+
+var today = new GlideDateTime();
+
+var gr = new GlideRecord('u_eficiencia');
+gr.addQuery('u_number=EFI0001193');
+gr.setLimit(1);
+gr.query();
+while (gr.next()) {
+	gr.setWorkflow(false);
+
+	if(gr.getValue('u_last_update')){
+
+	}else{
+
+		var sevenDays = new GlideDateTime(gr.getValue('sys_created_on'));
+    sevenDays.add(604800000); //add 7days
+
+    if(today.after(sevenDays)){
+    	gr.setValue('u_pontos_eficiencia',parseInt(gr.getValue('u_pontos_eficiencia')) + 1);
+      
+      gs.print(today.toString());
+      gr.setValue('u_last_update',today.toString())
+    }
+      
+	}
+
+	gr.update();
+}
+
+
 ```
 
 
