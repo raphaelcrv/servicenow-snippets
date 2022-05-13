@@ -1,0 +1,8 @@
+## Force a record into an update set
+```js
+var rec = new GlideRecord('table_name_of_record');
+rec.get('sys_id_of_record');
+//Push the record into the current update set   
+var um = new GlideUpdateManager2();
+um.saveRecord(rec);
+```

@@ -1,3 +1,5 @@
+
+
 //1. create a excel file with all colunms translated
 //2. convert to json http://beautifytools.com/excel-to-json-converter.php
 //3. 
@@ -153,4 +155,5 @@ toTranslate.forEach(function(el){
     gs.info(grLabel.insert());
 
 
-})
+});
+

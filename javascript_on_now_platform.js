@@ -1,5 +1,15 @@
 //Javscript Code Validations
 
+
+if(gs.nil(gr.variableName)) {
+  /*true condition*/
+  }
+
+//validate data
+if(valueData != '' && valueData != null && !valueData.nil(){
+  /*true condition*/
+  }
+
 //Check if has Property
 var vehicle = {
     "year" : 2018,

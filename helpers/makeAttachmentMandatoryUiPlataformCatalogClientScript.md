@@ -8,6 +8,7 @@ client script and add to client script form.
 
 ![Image of Yaktocat](https://community.servicenow.com/e8db84bc1b230014fff162c4bd4bcb1a.iix)
 
+```js
 /*Add the Script*/
 	function onSubmit() {
 	

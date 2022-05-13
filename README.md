@@ -12,28 +12,29 @@ Oficial Library Documentations
 
 Examples:
 
-- [Jelly](samples/jelly)
-- [Widgets](samples/widget)
-- [Script Includes](samples/script_includes)
-- [Business Rules](samples/business_rules)
+- [Jelly](samples/jelly_code.md)
+- [Widgets](samples/widget.md)
+- [Script Includes](samples/script_include.md)
+- [Calendar Events](samples/calendar_events.md)
+- [Catalog Generator](samples/catalog_generator.md)
 
 
 ---
 
-Documentation Reference
+Oficial Documentation Reference
 
 1. [Woring with GlideRecord](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideRecordAPI)
-1. [Glide User](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/GUserAPI)
-1. [Working with GlideDateTime](https://docs.servicenow.com/bundle/jakarta-application-development/page/app-store/dev_portal/API_reference/glideDateTimeScoped/concept/c_GlideDateTimeScoped.html)
-1. [JavaScript Snippets](docs/javascript.md)
-1. [Array Utils](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_ArrayUtilAPI)
-1. [HTML Snippets](docs/html_snippets.md)
-1. [SASS Variables](docs/sass_variables.md)
-1. [CSS](docs/css.md)
-1. [Misc](docs/misc.md)
-1. [Components](docs/components/components.md)
-1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
-1. [Widget Generate Catalog](docs/widget_generate_catalog.md)
+2. [Glide User](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/GUserAPI)
+3. [Working with GlideDateTime](https://docs.servicenow.com/bundle/jakarta-application-development/page/app-store/dev_portal/API_reference/glideDateTimeScoped/concept/c_GlideDateTimeScoped.html)
+4. [JavaScript Snippets](docs/javascript.md)
+5. [Array Utils](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_ArrayUtilAPI)
+6. [HTML Snippets](docs/html_snippets.md)
+7. [SASS Variables](docs/sass_variables.md)
+8. [CSS](docs/css.md)
+9. [Misc](docs/misc.md)
+10. [Components](docs/components/components.md)
+11. [Widget Generate Catalog](docs/widget_generate_catalog.md)
+12. [Widget Generate Catalog](docs/widget_generate_catalog.md)
 
 ---
 1. [GlideForm: The GlideForm API provides methods to customize forms. ](https://developer.servicenow.com/dev.do#!/reference/api/orlando/client/r_GlideFormAddDecoration_String_String_String_String)
@@ -42,39 +43,44 @@ Documentation Reference
 1. [Jelly Sample Code](https://gist.github.com/raphaelcrv/9bfab421af53a30b293169bad0d46557)
 
 
+## Using `gs.nil()`
+```js
+if(gs.nil(gr.variableName)) {
+  /*true condition*/
+  }
+
+if(valueData != '' && valueData != null && !valueData.nil(){
+  /*true condition*/
+  }
+```
+> `gs.nil()` will return true if a variable is empty
 
 # GlideRecord
-
-## Examples `gr.getLastErrorMessage()`
-```js
-// Setup a data policy where short_description field in incident is mandatory
-var gr = new GlideRecord('incident');
-gr.insert(); // insert without data in mandatory field
-var errormessage = gr.getLastErrorMessage(); 
-gs.info(errormessage);
-```
-
-  Output:
-  Data Policy Exception: Short description is mandatory
-__________________________________________
-## Examples `getLink(Boolean noStack)`
-```js
-gr = new GlideRecord('incident');
-gr.addActiveQuery();
-gr.addQuery("priority", 1);
-gr.query();
-gr.next()
-gs.info(gs.getProperty('glide.servlet.uri') + gr.getLink(false));
-```
-
-  Output:
-      <BaseURL>/incident.do?sys_id=9d385017c611228701d22104cc95c371&sysparm_stack=incident_list.do?sysparm_query=active=true
-__________________________________
-
 
 ## `GlideRecord.get`
 
 ```js
+
+//Using the new 
+//initialize(): Creates an empty record suitable for population before an insert.
+//newRecord(); Creates a GlideRecord, set the default values for the fields and assign a unique id to the record.
+
+//initialize gives no value to opened_at
+var inc = new GlideRecord('incident');
+inc.initialize();
+gs.print(inc.opened_at.getDisplayValue());
+inc.name = 'New Incident';
+inc.description = 'Incident description';
+inc.insert();
+
+//newREcord() gives value to opened_at
+var inc = new GlideRecord('incident');
+inc.newRecord();
+gs.print(inc.opened_at.getDisplayValue());
+inc.name = 'New Incident';
+inc.description = 'Incident description';
+inc.insert();
+
 
 //Example get encoded query
 var queryString = "priority=1^ORpriority=2"; //query
@@ -178,14 +184,12 @@ kids.addQuery('cart', cart.sys_id);
 kids.deleteMultiple();
 }
 
-//Deletes a single record.
-var rec = new GlideRecord('incident');
-rec.addQuery('active',false);
-rec.query();
-while (rec.next()) { 
-gs.print('Inactive incident ' + rec.number + ' deleted');
-rec.deleteRecord();
-}
+
+//Delete single record
+var gr = new GlideRecord('incident');
+if (gr.get('99ebb4156fa831005be8883e6b3ee4b9'))
+    gr.deleteRecord();
+```
 
 /
 
@@ -205,6 +209,31 @@ while (gr.next()) {
 ```
 Keywords: `addJoinQuery`, `get`
 ____________________________________
+
+## Examples `gr.getLastErrorMessage()`
+```js
+// Setup a data policy where short_description field in incident is mandatory
+var gr = new GlideRecord('incident');
+gr.insert(); // insert without data in mandatory field
+var errormessage = gr.getLastErrorMessage(); 
+gs.info(errormessage);
+```
+
+  Output:
+  Data Policy Exception: Short description is mandatory
+__________________________________________
+## Examples `getLink(Boolean noStack)`
+```js
+gr = new GlideRecord('incident');
+gr.addActiveQuery();
+gr.addQuery("priority", 1);
+gr.query();
+gr.next()
+gs.info(gs.getProperty('glide.servlet.uri') + gr.getLink(false));
+```
+
+  Output:
+      <BaseURL>/incident.do?sys_id=9d385017c611228701d22104cc95c371&sysparm_stack=incident_list.do?sysparm_query=active=true
 
 # Snippets Server
 
@@ -304,22 +333,6 @@ u_contractISNOTEMPTY^ => condition u_contract não deve estar vazio
 ```
 >Keywords: `Use_reference_qualifier`, `filter_choice_list`
 
-
-
-
-__________________________________
-## Examples  `addEncodedQuery` :
-```js
-var queryString = "priority=1^ORpriority=2";
-var gr = new GlideRecord('incident');
-gr.addEncodedQuery(queryString);
-gr.query();
-while (gr.next()) {
-gs.addInfoMessage(gr.number);
-}
-```
-Keywords: `GlideRecord`, `get`, `encodedQuery`
-
 __________________________________
 ## Examples `etch a record with all fields from query object  `
 fetch a record with all fields from query object at a time while retrieving the data from GlideRecord
@@ -346,112 +359,6 @@ grData.forEach(function(e,i){
 });
 ```
 Keywords: `GlideRecord`, `get`
-
-----
-## Using `gs.nil()`
-```js
-if(gs.nil(gr.variableName)) { //is empety }
-```
-> `gs.nil()` will return true if a variable is empty
-
-----
-
-----
-# Helpers
-```js
-if(gs.nil(gr.variableName)) { //is empety }
-inc.autoSysFields(false);  // Do not update sys_updated_by, sys_updated_on, sys_mod_count, sys_created_by, and sys_created_on
-inc.setWorkflow(false);    // Do not run any other business rules
-
-current.setAbortAction(true); //Sets a flag to indicate if the next database action (insert, update, delete) is to be aborted. ref:[https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/r_GlideRecord-setAbortAction_Boolean]
-gr.setLimit(10); //To use the setLimit() method in a scoped application, use the corresponding scoped method: setLimit().
-
-```
-
-
-----
-
-## Force a record into an update set
-```js
-var rec = new GlideRecord('table_name_of_record');
-rec.get('sys_id_of_record');
-//Push the record into the current update set   
-var um = new GlideUpdateManager2();
-um.saveRecord(rec);
-```
-
-> GlideUpdateManager2 Push the update into the current update set
-
-## Recursive function
-```js
-var results = [];
-var nestedCategories = ['898fc5a0db00d74074c99447db9619d8'];
-getChildren(nestedCategories[0]);
-searchItems();
-return results;
-
-function getChildren(sysID) {
-  var gr = new GlideRecord('sc_category');
-  gr.addQuery('parent', sysID);
-  gr.addActiveQuery();
-  gr.query();
-  while(gr.next()) {
-      var current = gr.sys_id.toString();
-      nestedCategories.push(current);
-      if(hasChildren(current)) {
-          getChildren(current);
-      }
-  }
-}
-
-function hasChildren(sysID) {
-  var gr = new GlideRecord('sc_category');
-  gr.addQuery('parent', sysID);
-  gr.addActiveQuery();
-  gr.query();
-  if(gr.next()) {
-      return true;
-  } else {
-      return false;
-  }
-}
-```
-
-----
-
-## CatItem API
-```js
-var catalogItemJS = new sn_sc.CatItem(sc.getUniqueValue());
-if (!catalogItemJS.canView())
-  continue;
-var catItemDetails = catalogItemJS.getItemSummary();
-```
-
-----
-
-## CatCategory API
-```js
-categoryJS = new sn_sc.CatCategory(data.category_id);
-if (!categoryJS.canView()) {
-  data.error = gs.getMessage("You do not have permission to see this category");
-  return;
-}
-```
-
-----
-
-## CatalogSearch API
-```js
-var items = data.items = [];
-var catalog = $sp.getValue('sc_catalog');
-var sc = new sn_sc.CatalogSearch().search(catalog, data.category_id, '', false, options.depth_search);
-sc.addQuery('sys_class_name', 'NOT IN', 'sc_cat_item_wizard');
-if (data.keywords)
-  sc.addQuery('123TEXTQUERY321', data.keywords);
-sc.orderBy('order');
-sc.orderBy('name');
-sc.query();
-```
 
 
 # Working with Dates
@@ -547,20 +454,7 @@ gr.update();
 }
 ```
 > Notes on the snippet
-
-# Helpers
-
-## Change Multiple Update Set (Move)
-```js
-var currentUpdateSet = "9679e8561b32289016600d8ce54bcb3f";
-var newUpdateSet = "22a9ba8b1bdbe890ef6a64afe54bcb6a";
-var gr = new GlideRecord('sys_update_xml');
-gr.addEncodedQuery("update_set="+currentUpdateSet+"^sys_created_onON2021-04-08@javascript:gs.dateGenerate('2021-04-08','start')@javascript:gs.dateGenerate('2021-04-08','end')");
-gr.setValue('update_set',  newUpdateSet);
-gr.updateMultiple();
-```
-> Notes on the snippet
-_______________________________________________________
+___________________________________________________
 
 ## Scrapping content from internet
 ```js
@@ -576,7 +470,90 @@ for (var i = 0; i < el.length; i++){
 ```
 > Notes on the snippet
 
-____________________________________________________________
+```js
+if(gs.nil(gr.variableName)) { //is empety }
+inc.autoSysFields(false);  // Do not update sys_updated_by, sys_updated_on, sys_mod_count, sys_created_by, and sys_created_on
+inc.setWorkflow(false);    // Do not run any other business rules
+
+current.setAbortAction(true); //Sets a flag to indicate if the next database action (insert, update, delete) is to be aborted. ref:[https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/r_GlideRecord-setAbortAction_Boolean]
+gr.setLimit(10); //To use the setLimit() method in a scoped application, use the corresponding scoped method: setLimit().
+
+```
+
+> GlideUpdateManager2 Push the update into the current update set
+__________________________________________
+## Recursive function
+```js
+var results = [];
+var nestedCategories = ['898fc5a0db00d74074c99447db9619d8'];
+getChildren(nestedCategories[0]);
+searchItems();
+return results;
+
+function getChildren(sysID) {
+  var gr = new GlideRecord('sc_category');
+  gr.addQuery('parent', sysID);
+  gr.addActiveQuery();
+  gr.query();
+  while(gr.next()) {
+      var current = gr.sys_id.toString();
+      nestedCategories.push(current);
+      if(hasChildren(current)) {
+          getChildren(current);
+      }
+  }
+}
+
+function hasChildren(sysID) {
+  var gr = new GlideRecord('sc_category');
+  gr.addQuery('parent', sysID);
+  gr.addActiveQuery();
+  gr.query();
+  if(gr.next()) {
+      return true;
+  } else {
+      return false;
+  }
+}
+```
+
+______________________________
+
+## CatItem API
+```js
+var catalogItemJS = new sn_sc.CatItem(sc.getUniqueValue());
+if (!catalogItemJS.canView())
+  continue;
+var catItemDetails = catalogItemJS.getItemSummary();
+```
+
+______________________________
+
+## CatCategory API
+```js
+categoryJS = new sn_sc.CatCategory(data.category_id);
+if (!categoryJS.canView()) {
+  data.error = gs.getMessage("You do not have permission to see this category");
+  return;
+}
+```
+
+____________________________________
+
+## CatalogSearch API
+```js
+var items = data.items = [];
+var catalog = $sp.getValue('sc_catalog');
+var sc = new sn_sc.CatalogSearch().search(catalog, data.category_id, '', false, options.depth_search);
+sc.addQuery('sys_class_name', 'NOT IN', 'sc_cat_item_wizard');
+if (data.keywords)
+  sc.addQuery('123TEXTQUERY321', data.keywords);
+sc.orderBy('order');
+sc.orderBy('name');
+sc.query();
+```
+
+____________________________________
 
 # Template
 
