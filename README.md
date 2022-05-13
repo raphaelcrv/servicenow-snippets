@@ -1,12 +1,26 @@
 # ServiceNow & JS Snippets
 
 ## Table of Contents
-@todo fix ToC, not sure about JavaScript snippets and Misc
+
+Working in progress
+- [Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management) by @raphaelcrv
+
+Oficial Library Documentations
+- [Angular.js](https://docs.angularjs.org/api/ng/directive/ngReadonly)
+- [Moment.js](https://momentjs.com/)
+- [Chart.js](https://www.chartjs.org/)
+
+Examples:
+
+- [Jelly](samples/jelly)
+- [Widgets](samples/widget)
+- [Script Includes](samples/script_includes)
+- [Business Rules](samples/business_rules)
 
 
-[Servicenow Product Documentation Translated to PT-BR](https://github.com/raphaelcrv/servicenow-snippets/wiki#documenta%C3%A7%C3%A3o-m%C3%B3dulo-it-service-management)
-- angular documentation: https://docs.angularjs.org/api/ng/directive/ngReadonly
 ---
+
+Documentation Reference
 
 1. [Woring with GlideRecord](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideRecordAPI)
 1. [Glide User](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/GUserAPI)
@@ -29,25 +43,112 @@
 
 
 
-## Template
+# GlideRecord
 
----
-### Description
+
+## `GlideRecord.get`
 
 ```js
-// code
+
+//Example get encoded query
+var queryString = "priority=1^ORpriority=2"; //query
+var gr = new GlideRecord('incident');
+slagr.setLimit("1"); //setLimit
+slagr.orderByDesc('u_ticket_score'); //orderBy
+gr.addEncodedQuery(queryString);//EncodedQuery
+gr.query();
+while (gr.next()) {
+   //This method fails if there is a field in the table called "next". If that is the case, use the method _next().
+  gs.addInfoMessage(gr.number);
+  gs.info(gr.getValue('number')); //Retrieves the string value of an underlying element in a field.
+}
+
+//exemple get sys_id
+var sys_id = "99ebb4156fa831005be8883e6b3ee4b9";
+var gr = new GlideRecord('incident');
+if(gr.get(sys_id)){
+  gs.info(gr.number) // logs Incident Number
+}
+
+//exemple get param
+var gr = new GlideRecord('incident');
+if(gr.get('caller_id.name','Sylivia Wayland')){
+  gs.info(gr.number) // logs Incident Number
+}
+
+//example if ternary get function
+function getRecord (sys_id, table) {
+  var gr = new GlideRecord(table);
+  return gr.get(sys_id); //return true or false
+}
+
+
+```
+> gr.get return true if record founded or the value of record if founded
+
+Keywords: `GlideRecord`, `get`
+_______________________________________
+
+## `GlideRecord.update`
+
+```js 
+
+
+  //update one record
+  var gr = new GlideRecord('incident');
+  gr.addQuery('emailLIKE@domain');
+  gr.addEncodedQuery(queryString);//EncodedQuery
+  gr.setLimit(1);
+  gr.query();
+  while (gr.next()) {
+    grInc.state = 2;
+    gr.update();
+  }
+
+  //update updateMultiple
+  var gr = new GlideRecord('incident');
+  gr.addEncodedQuery("state=2");//EncodedQuery
+  gr.query();
+  while (gr.next()) {
+    //grInc.setValue("state",2)//set value
+    grInc.state = 2;
+    gr.updateMultiple();
+  }
+
+  //exemple get sys_id
+  var sys_id = "99ebb4156fa831005be8883e6b3ee4b9";
+  var grInc = new GlideRecord('incident');
+  if(grInc.get(sys_id)){
+    //grInc.setValue("state",2)//set value
+    grInc.state = 2;
+    grInc.update()
+  }
+
+
 ```
 
 > Notes on the snippet
+Resume: that code update password of all users on the filter
+Caution: User gr.setWorkflow = false for skipp workflow rules
+tags: GlideREcord, Update
 
-----
+___________________________________
 
-# Snippets Client
+## Examples  `addJoinQuery` :
+```js
+//Find problems that have incidents associated where the incident caller_id field value matches that of the problem opened_by field.
+var gr = new GlideRecord('problem'); 
+gr.addJoinQuery('incident', 'opened_by', 'caller_id'); 
+gr.query();,
+while (gr.next()) {
+    gs.info(gr.getValue('number'));
+}
 
-
+```
+Keywords: `addJoinQuery`, `get`
+____________________________________
 
 # Snippets Server
-
 
 ## Transform Map Demo Script
 
@@ -103,6 +204,7 @@
 
 > Notes on the snippet
 
+_________________________________________________
 ## Debug ScriptInclude Example:
 ```js
 var MyUtil = Class.create();
@@ -129,9 +231,9 @@ MyUtil.prototype = {
     type : "MyUtil"
 }
 ```
-Keywords: `GlideRecord`, `get`
----
+Keywords: `script include`, `sys_log`, `debug`
 
+_________________________________________________
 ## Filtering choices lists (Use reference qualifier)
 
 ![alt text](https://i.imgur.com/gfBXiYs.png)
@@ -143,25 +245,11 @@ current.variables.contract => get value the variable on the form
 u_contractISNOTEMPTY^ => condition u_contract não deve estar vazio
 ```
 >Keywords: `Use_reference_qualifier`, `filter_choice_list`
----
-
-## Examples  `addJoinQuery` :
-```js
-//Find problems that have incidents associated where the incident caller_id field value matches that of the problem opened_by field.
-var gr = new GlideRecord('problem'); 
-gr.addJoinQuery('incident', 'opened_by', 'caller_id'); 
-gr.query();,
-while (gr.next()) {
-    gs.info(gr.getValue('number'));
-}
-
-```
-Keywords: `addJoinQuery`, `get`
-
-----
 
 
----
+
+
+__________________________________
 ## Examples  `addEncodedQuery` :
 ```js
 var queryString = "priority=1^ORpriority=2";
@@ -172,9 +260,9 @@ while (gr.next()) {
   gs.addInfoMessage(gr.number);
 }
 ```
-Keywords: `GlideRecord`, `get`
+Keywords: `GlideRecord`, `get`, `encodedQuery`
 
-----
+__________________________________
 ## Examples `etch a record with all fields from query object  `
 fetch a record with all fields from query object at a time while retrieving the data from GlideRecord
 ```js
@@ -200,49 +288,6 @@ fetch a record with all fields from query object at a time while retrieving the 
   });
 ```
 Keywords: `GlideRecord`, `get`
-
-----
-## Examples `GlideRecord.get `
-
-```js
-
-//Example get encoded query
-var queryString = "priority=1^ORpriority=2";
-var gr = new GlideRecord('incident');
-gr.addEncodedQuery(queryString);
-gr.query();
-while (gr.next()) { //This method fails if there is a field in the table called "next". If that is the case, use the method _next().
-  gs.addInfoMessage(gr.number);
-  gs.info(gr.getValue('number')); //Retrieves the string value of an underlying element in a field.
-
-  
-}
-
-//exemple get sys_id
-var gr = new GlideRecord('incident');
-if(gr.get('99ebb4156fa831005be8883e6b3ee4b9')){
-  gs.info(gr.number) // logs Incident Number
-}
-
-//exemple get param
-var gr = new GlideRecord('incident');
-if(gr.get('caller_id.name','Sylivia Wayland')){
-  gs.info(gr.number) // logs Incident Number
-}
-
-//example if ternary get function
-function getRecord (sys_id, table) {
-  var gr = new GlideRecord(table);
-  return gr.get(sys_id); //return true or false
-}
-
-
-```
-> gr.get return true if record founded or the value of record if founded
-
-Keywords: `GlideRecord`, `get`
-
-----
 
 ## Examples `gr.delete()`
 ```js
@@ -363,25 +408,6 @@ um.saveRecord(rec);
 ```
 
 > GlideUpdateManager2 Push the update into the current update set
----
-## GlideRecord Update Example
-
-```js 
-  var gr = new GlideRecord('sys_user');
-  gr.addQuery('emailLIKE@domain');
-  gr.query();
-  while (gr.next()) {
-    gr.user_password.setDisplayValue('convit123');
-    gr.password_needs_reset = true;
-    gr.update();
-  }
-```
-
-> Notes on the snippet
-Resume: that code update password of all users on the filter
-Caution: User gr.setWorkflow = false for skipp workflow rules
-tags: GlideREcord, Update
-----
 
 ## Recursive function
 ```js
@@ -454,7 +480,8 @@ sc.orderBy('name');
 sc.query();
 ```
 
-----
+
+# Working with Dates
 
 ## Get Days Ago
 ```js
@@ -474,9 +501,8 @@ _checkDaysAgo: function (date) {
     return days;
 }
 ```
----
-
-# Working with Dates
+> Notes on the snippet
+____________________________________
 
 [Working with dates - GlideDateTime:](https://developer.servicenow.com/dev.do#!/reference/api/orlando/server_legacy/c_GlideDateTimeAPI)
 
@@ -550,9 +576,21 @@ while (gr.next()) {
 
 
 ```
+> Notes on the snippet
 
+# Helpers
 
----
+## Change Multiple Update Set (Move)
+```js
+var currentUpdateSet = "9679e8561b32289016600d8ce54bcb3f";
+var newUpdateSet = "22a9ba8b1bdbe890ef6a64afe54bcb6a";
+var gr = new GlideRecord('sys_update_xml');
+gr.addEncodedQuery("update_set="+currentUpdateSet+"^sys_created_onON2021-04-08@javascript:gs.dateGenerate('2021-04-08','start')@javascript:gs.dateGenerate('2021-04-08','end')");
+gr.setValue('update_set',  newUpdateSet);
+gr.updateMultiple();
+```
+> Notes on the snippet
+_______________________________________________________
 
 ## Scrapping content from internet
 ```js
@@ -566,17 +604,15 @@ for (var i = 0; i < el.length; i++){
     })
 };
 ```
+> Notes on the snippet
 
-## Change Multiple Update Set (Move)
+____________________________________________________________
+
+# Template
+
+### Description
 ```js
-var gr = new GlideRecord('sys_update_xml');... por Miguel Huke Franca
+// code here 
+console.log("hello world");
 
-Miguel Huke Franca11:18
-var gr = new GlideRecord('sys_update_xml');
-gr.addEncodedQuery("update_set=9679e8561b32289016600d8ce54bcb3f^sys_created_onON2021-04-08@javascript:gs.dateGenerate('2021-04-08','start')@javascript:gs.dateGenerate('2021-04-08','end')");
-gr.setValue('update_set',  '22a9ba8b1bdbe890ef6a64afe54bcb6a');
-gr.updateMultiple();
 ```
-
-
----

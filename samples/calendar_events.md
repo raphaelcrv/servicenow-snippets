@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<unload unload_date="2021-07-29 18:17:31">
-<sp_widget action="INSERT_OR_UPDATE">
-<category>custom</category>
-<client_script><![CDATA[function() {
+```js
+
+/*======== ======== ======== */
+/* ======== CLIENT ======== */
+/*======== ======== ======== */
+
+function() {
 	/* widget controller */
 	var c = this;
 	var calendarEvents = c.data.calendarEvents;
@@ -82,9 +84,15 @@
 
 
 	//console.log(c.data.calendarEvents);
-}]]></client_script>
-<controller_as>c</controller_as>
-<css>@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+}
+
+
+/*======== ======== ======== */
+/* ======== CSS ======== */
+/*======== ======== ======== */
+
+
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400&amp;display=swap');
 
 
@@ -250,21 +258,12 @@ ol li:after{
     float: none;
   }
 }
-</css>
-<data_table>sp_instance</data_table>
-<demo_data/>
-<description/>
-<docs display_value=""/>
-<field_list/>
-<has_preview>true</has_preview>
-<id>full_calendar_events</id>
-<internal>false</internal>
-<link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
-<name>OCL Full Calendar Events</name>
-<option_schema>[{"hint":"Informe o hex da cor","name":"announcements_color","section":"Presentation","default_value":"#358dc5","label":"Eventos Financeiros","type":"string"},{"hint":"informe as cores da change","name":"changes_color","section":"Presentation","default_value":"#f47c01","label":"Changes","type":"string"},{"hint":"Informe a mensagem do rodapé","name":"footer_message","section":"other","default_value":"As mudanças e eventos apresentadas nesse calendário são as consideradas críticas pelo time de Governança. Em caso de dúvidas, por favor entrar em contato pelo email contoso@xont.com.br","label":"Mensagem Rodapé","type":"string"},{"name":"change_color_conflitct","section":"Presentation","default_value":"red","label":"Change Conflito","type":"string"},{"hint":"Informe a cor do feriado","name":"vacations_color","section":"Presentation","default_value":"#ddd","label":"Feriados","type":"string"},{"name":"eventos_de_t_i","section":"Presentation","default_value":"blue","label":"Eventos de T.I","type":"string"}]</option_schema>
-<public>false</public>
-<roles/>
-<script><![CDATA[(function() {
+
+/*======== ======== ======== */
+/* ======== SERVER ======== */
+/*======== ======== ======== */
+
+function() {
 	/* populate the 'data' object */
 	/* e.g., data.table = $sp.getValue('table'); */
 
@@ -373,12 +372,7 @@ ol li:after{
 			var start_date = new GlideDateTime(start);
 			var end_date = new GlideDateTime(end);
 
-
-			//gs.addInfoMessage("start_dateBETWEENjavascript:gs.dateGenerate('"+startDate+"','"+startTime+"')@javascript:gs.dateGenerate('"+endDate+"','"+endTime+"')^cmdb_ci="+ic+"^stateNOT IN3,4^sys_id!="+sys_id);
-			//gs.addInfoMessage("sys_created_onONThis month@javascript:gs.beginningOfThisMonth()@javascript:gs.endOfThisMonth()^cmdb_ci="+ic+"^sys_id!="+sys_id);
-
 			var grGetChange = new GlideRecord('change_request');
-			//grChange.addEncodedQuery("start_dateBETWEENjavascript:gs.dateGenerate('"+startDate+"','"+startTime+"')@javascript:gs.dateGenerate('"+endDate+"','"+endTime+"')^cmdb_ci="+ic+"^stateNOT IN3,4^sys_id!="+sys_id);
 			grGetChange.addEncodedQuery("sys_created_onONThis month@javascript:gs.beginningOfLast12Months()@javascript:gs.endOfThisMonth()^cmdb_ci="+ic+"^sys_id!="+sys_id);
 			//grGetChange.setLimit(1);
 			grGetChange.query();
@@ -432,21 +426,10 @@ ol li:after{
 
 	data.calendarEvents = mFunctions.getEvents();
 
-})();]]></script>
-<servicenow>false</servicenow>
-<sys_class_name>sp_widget</sys_class_name>
-<sys_created_by>raphael.souza</sys_created_by>
-<sys_created_on>2020-11-19 11:56:36</sys_created_on>
-<sys_id>725fd14a1b6c6c503772419fe54bcb7d</sys_id>
-<sys_mod_count>429</sys_mod_count>
-<sys_name>OCL Full Calendar Events</sys_name>
-<sys_package display_value="Global" source="global">global</sys_package>
-<sys_policy/>
-<sys_scope display_value="Global">global</sys_scope>
-<sys_update_name>sp_widget_725fd14a1b6c6c503772419fe54bcb7d</sys_update_name>
-<sys_updated_by>raphael.t2232</sys_updated_by>
-<sys_updated_on>2021-05-14 12:21:42</sys_updated_on>
-<template><![CDATA[<div>
+/*======== ======== ======== */
+/* ======== HTML ======== */
+/*======== ======== ======== */
+
   <!-- your widget template -->
   <div class="events-title">
     <h3>Calendário</h3>  
