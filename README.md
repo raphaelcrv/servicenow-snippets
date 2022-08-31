@@ -484,6 +484,17 @@ gr.setLimit(10); //To use the setLimit() method in a scoped application, use the
 __________________________________________
 ## Recursive function
 ```js
+
+//SAMPLE 1
+//Query for the record
+var rec = new GlideRecord('sys_portal');
+rec.get('8a8df9f61be15d9088eceb17ec4bcb97');
+//Push the record into the current update set  
+var um = new GlideUpdateManager2();
+um.saveRecord(rec);
+
+
+//SAMPLE 2
 var results = [];
 var nestedCategories = ['898fc5a0db00d74074c99447db9619d8'];
 getChildren(nestedCategories[0]);
