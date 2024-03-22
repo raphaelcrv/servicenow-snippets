@@ -482,7 +482,7 @@ gr.setLimit(10); //To use the setLimit() method in a scoped application, use the
 
 > GlideUpdateManager2 Push the update into the current update set
 __________________________________________
-## Recursive function
+## Recursive function (Update set)
 ```js
 
 //SAMPLE 1
