@@ -480,6 +480,21 @@ gr.setLimit(10); //To use the setLimit() method in a scoped application, use the
 
 ```
 
+> Revert to Store Application
+__________________________________________
+## Function to revert all the changes to store application (Update set)
+```js
+	
+var metaData = new GlideRecord("sys_metadata");
+metaData.addEncodedQuery("sys_scope=39a9d9664f834e00dd657bb28110c77b^sys_class_name=sys_script^ORsys_class_name=sys_ui_page^ORsys_class_name=sys_ui_macro^ORsys_class_name=sys_script_include^ORsys_class_name=sys_ui_action^ORsys_class_name=sysauto_script^ORsys_class_name=sysevent_script_action^ORsys_class_name=sys_script_client^ORsys_class_name=sys_ui_policy^ORsys_class_name=sys_ui_script^ORsys_class_name=sys_app_application^ORsys_class_name=sys_ui_module^ORsys_class_name=sys_ws_definition^ORsys_class_name=sys_ws_operation^ORsys_class_name=sys_transform_map^ORsys_class_name=sys_security_acl^ORsys_class_name=sys_security_acl_role^ORsys_class_name=sys_rest_message^sys_updated_by!=PagerDuty_v8.1.1^ORsys_updated_by=NULL");
+metaData.query();
+while(metaData.next()){
+	var suv = new GlideappUpdateVersion();
+	suv.revertToStoreApp(metaData.sys_update_name, metaData.sys_scope);
+}
+
+```
+
 > GlideUpdateManager2 Push the update into the current update set
 __________________________________________
 ## Recursive function (Update set)
